@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Genie.Core.Specifications;
 using GenieAPI.DTOs;
 using AutoMapper;
+using GenieAPI.Helpers;
 
 namespace GenieAPI.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+   
+    public class ProductsController : BaseAPIController
     {
         private readonly IGenericRepository<Product> _productsRepo;
         private readonly IGenericRepository<ProductType> _productTypesRepo;
@@ -26,18 +26,22 @@ namespace GenieAPI.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDTO>>> GetProducts()
+        public async Task<ActionResult<Pagination<ProductToReturnDTO>>> GetProducts([FromQuery]ProductSpecParams productParam)
         {
-            var spec = new ProductsWithTypesAndBransSpecification();
+            var spec = new ProductsWithTypesAndBrandsSpecification(productParam);
+            var countSpec = new ProductWithFiltersForCountSpecification(productParam);
+            var totalItems = await _productsRepo.CountAsync(countSpec);
             var products = await _productsRepo.ListAsync(spec);
+            var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDTO>>(products);
 
-            return Ok(_mapper.Map<IReadOnlyList<Product>,IReadOnlyList<ProductToReturnDTO>>(products));
+
+            return Ok(new Pagination<ProductToReturnDTO>(productParam.PageIndex, productParam.PageSize,totalItems,data));
         }
         
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductToReturnDTO>> GetProduct(int id)
         {
-            var spec = new ProductsWithTypesAndBransSpecification(id);
+            var spec = new ProductsWithTypesAndBrandsSpecification(id);
             var product = await _productsRepo.GetEntityWithSpec(spec);
             return _mapper.Map<Product,ProductToReturnDTO>(product);
         }
