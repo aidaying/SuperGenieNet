@@ -5,6 +5,7 @@ using Genie.Core.Specifications;
 using GenieAPI.DTOs;
 using AutoMapper;
 using GenieAPI.Helpers;
+using GenieAPI.Errors;
 
 namespace GenieAPI.Controllers
 {
@@ -39,10 +40,13 @@ namespace GenieAPI.Controllers
         }
         
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductToReturnDTO>> GetProduct(int id)
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(id);
             var product = await _productsRepo.GetEntityWithSpec(spec);
+            if (product == null) return NotFound(new APIResponse(404));
             return _mapper.Map<Product,ProductToReturnDTO>(product);
         }
         [HttpGet("brands")]

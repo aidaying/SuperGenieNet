@@ -1,10 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System.Text.Json;
-using System.Threading.Tasks;
 using GenieAPI.Errors;
+using System.Net;
 
 namespace GenieAPI.Controllers.Middleware
 {
@@ -36,7 +35,9 @@ namespace GenieAPI.Controllers.Middleware
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-                var response = _env.IsDevelopment() ? new APIException((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace.ToString()) : new APIException((int)HttpStatusCode.InternalServerError);
+                var response = _env.IsDevelopment() 
+                    ? new APIException((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace.ToString()) 
+                    : new APIException((int)HttpStatusCode.InternalServerError);
               
                 var options = new JsonSerializerOptions{PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
                 var json = JsonSerializer.Serialize(response,options);
