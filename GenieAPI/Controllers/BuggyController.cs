@@ -1,5 +1,6 @@
 using Genie.Infrastructure.Data;
 using GenieAPI.Errors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SQLitePCL;
 
@@ -12,6 +13,11 @@ public class BuggyController : BaseAPIController
     public BuggyController(GenieContext context)
     {
         _context = context;
+    }
+    [HttpGet("testauth")]
+    [Authorize]
+    public ActionResult<string> GetSecretText() {
+        return "secret string";
     }
 
     [HttpGet("notfound")]

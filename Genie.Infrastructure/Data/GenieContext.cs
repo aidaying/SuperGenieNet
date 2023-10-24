@@ -6,7 +6,7 @@ namespace Genie.Infrastructure.Data
 {
     public class GenieContext : DbContext
     {
-        public GenieContext(DbContextOptions options) : base(options)
+        public GenieContext(DbContextOptions<GenieContext> options) : base(options)
         {
         }
         public DbSet<Product> Products { get; set; }

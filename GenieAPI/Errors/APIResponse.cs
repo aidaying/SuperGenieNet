@@ -21,7 +21,7 @@ namespace GenieAPI.Errors
             return statusCode switch
             {
                 400 => "This is a bad request.",
-                401 => "You arenot authorised",
+                401 => "You are not authorised",
                 404 => "The resource you are looking for is not found.",
                 500 => "Internal server error, please try again later.",
                 _ => null
