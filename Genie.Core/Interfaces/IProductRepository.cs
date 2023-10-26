@@ -1,6 +1,4 @@
 using Genie.Core.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Genie.Core.Interfaces
 {

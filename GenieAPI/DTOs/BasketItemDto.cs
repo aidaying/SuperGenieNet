@@ -1,6 +1,6 @@
-namespace Genie.Core.Entities;
+namespace GenieAPI.DTOs;
 
-public class BasketItem
+public class BasketItemDto
 {
     public int Id { get; set; }
     public string ProductName  { get; set; }

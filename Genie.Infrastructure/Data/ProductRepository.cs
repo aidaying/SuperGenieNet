@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Genie.Core.Entities;
 using Genie.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;

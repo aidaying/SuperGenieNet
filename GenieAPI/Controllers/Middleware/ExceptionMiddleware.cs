@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using GenieAPI.Errors;
 using System.Net;

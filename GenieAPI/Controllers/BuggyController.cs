@@ -2,7 +2,6 @@ using Genie.Infrastructure.Data;
 using GenieAPI.Errors;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SQLitePCL;
 
 namespace GenieAPI.Controllers;
 
